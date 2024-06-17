@@ -6,49 +6,136 @@
     <title>家长服务</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="initializePage()">
     <div class="navbar">
         <div class="dropdown">
             <button class="dropbtn">用户信息</button>
             <div class="dropdown-content">
-                <a href="#" onclick="showPage('student-info')">学生信息</a>
-                <a href="#" onclick="showPage('teacher-info')">教师信息</a>
+                
+                <a id="stu" href="#" onclick="showPage('student-info')" >学生信息</a>
+                <a id="tea" href="#" onclick="showPage('teacher-info')">教师信息</a>
             </div>
         </div>
         <div class="dropdown">
             <button class="dropbtn">课程相关</button>
             <div class="dropdown-content">
-                <a href="#" onclick="showPage('course-management')">课程管理</a>
-                <a href="#" onclick="showPage('lesson-management')">课次管理</a> 
-                <a href="#" onclick="showPage('selected-courses')">已选课程</a>
-                <a href="#" onclick="showPage('resource-info')">课次资源</a>
-
+                <a id="cm" href="#" onclick="showPage('course-management')">课程管理</a>
+                <a id="sel" href="#" onclick="showPage('selected-courses')">已选课程</a>
+                <a id="lmm" href="#" onclick="showPage('lesson-management')">课次管理</a> 
+                <a id="ri" href="#" onclick="showPage('resource-info')">课次资源</a>
             </div>
         </div>
         <div class="dropdown">
             <button class="dropbtn">学生管理</button>
             <div class="dropdown-content">
-                <a href="#" onclick="showPage('student-leave')">学生请假</a>
-                <a href="#" onclick="showPage('leave-management')">请假管理</a>
-                <a href="#" onclick="showPage('student-archives')">学生档案</a>
-                <div class="dropdown">
-                    <button class="dropbtn">奖惩发放</button>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="showPage('scholarships')">奖学金</a>
-                        <a href="#" onclick="showPage('grants')">助学金</a>
-                        <a href="#" onclick="showPage('discipline-records')">违纪记录</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">家长服务</button>
-            <div class="dropdown-content">
-                <a href="#" onclick="showPage('parent-student-info')">查看学生信息</a>
+                <a id="sl" href="#" onclick="showPage('student-leave')">学生请假</a>
+                <a id="lm" href="#" onclick="showPage('leave-management')">请假管理</a>
+                <a id="sa" href="#" onclick="showPage('student-archives')">学生档案</a>
             </div>
         </div>
     </div>
     <div id="app">
+        <!-- 资源 -->
+        <div id="resource-info" class="info-page">
+            <div class="container">
+                <div class="search-bar">
+                  <input type="text" id="session-name-input" placeholder="输入课次编号...">
+                  <button type="button" onclick="filterBySession()">搜索</button>
+                </div>
+                <div class="resource-list">
+                  <h2>课次资源列表</h2>
+                  <table id="resource-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>资源名称</th>
+                        <th>问题</th>
+                        <th>内容</th>
+                        <th>操作</th>
+                      </tr> 
+                    </thead>
+                    <tbody>
+                      <!-- 资源列表将通过 JavaScript 动态填充 -->
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            
+              <!-- 添加资源模态框 -->
+            <div id="add-resource-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeAddForm()">&times;</span>
+                    <h2>添加新资源</h2>
+                    <form id="add-resource-form">
+                    <label for="resource-id">课次编号</label>
+                    <input type="text" id="resource-id" name="resource-id" required>
+                    <label for="resource-name">资源名称</label>
+                    <input type="text" id="resource-name" name="resource-name" required>
+                    <label for="resource-issue">问题</label>
+                    <textarea id="resource-issue" name="resource-issue" rows="4" required></textarea>
+                    <label for="resource-content">内容</label>
+                    <textarea id="resource-content" name="resource-content" rows="4" required></textarea>
+                    <button type="submit">提交</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 课次 -->
+        <div id="lesson-management" class="info-page">
+
+
+            <div class="container">
+                <div class="sidebar">
+                    <h2>课程列表</h2>
+                    <table id="keci-table">
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>课程名称</th>
+                        <th>教师</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 课程列表将通过 JavaScript 动态填充 -->
+                    </tbody>
+                    </table>
+                </div>
+                <div class="main-content">
+                    <div class="toolbar">
+                    
+                    </div>
+                    <h2>课次列表</h2>
+                    <table id="session-table">
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>课程名称</th>
+                        <th>日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 课次列表将通过 JavaScript 动态填充 -->
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+            
+              <!-- 添加课次表单模态框 -->
+            <div id="add-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeAddForm()">&times;</span>
+                    <h2>添加新课次</h2>
+                    <form id="add-session-form">
+                    <label for="course-name-l">课程名称</label>
+                    <input type="text" id="course-name-l" name="course-name-l" required>
+                    <label for="session-date">日期</label>
+                    <input type="date" id="session-date" name="session-date" required>
+                    <button type="submit">提交</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
         <!-- 学生信息页面 -->
         <div id="student-info" class="info-page">
             <h1>学生信息</h1>
@@ -56,7 +143,7 @@
                 <label for="student-name">姓名:</label>
                 <input type="text" id="student-name" value="张三" disabled><br>
 
-                <label for="student-gender">学号:</label>
+                <label for="student-id">学号:</label>
                 <input type="text" id="student-id" value="111" disabled><br>
 
                 <label for="student-gender">性别:</label>
@@ -104,6 +191,7 @@
 
                 <button type="button" onclick="addCourse()">添加课程</button>
             </form>
+
             <h2>课程列表</h2>
             <table id="course-table">
                 <thead>
@@ -121,66 +209,7 @@
                 </tbody>
             </table>
         </div>
-        <!-- 课次 -->
-        <div id="lesson-management" class="info-page">
 
-
-            <div class="container">
-                <div class="sidebar">
-                    <h2>课程列表</h2>
-                    <table id="keci-table">
-                    <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>课程名称</th>
-                        <th>教师</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 课程列表将通过 JavaScript 动态填充 -->
-                    </tbody>
-                    </table>
-                </div>
-                <div class="main-content">
-                    <div class="toolbar">
-                    
-                    </div>
-                    <h2>课次列表</h2>
-                    <table id="session-table">
-                    <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>课程名称</th>
-                        <th>日期</th>
-                        <th>地点</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 课次列表将通过 JavaScript 动态填充 -->
-                    </tbody>
-                    </table>
-                    <button onclick="showAddForm()">添加课次</button>
-                </div>
-            </div>
-            
-              <!-- 添加课次表单模态框 -->
-            <div id="add-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeAddForm()">&times;</span>
-                    <h2>添加新课次</h2>
-                    <form id="add-session-form">
-                    <label for="session-name">课次名称</label>
-                    <input type="text" id="session-name" name="session-name" required>
-                    <label for="session-date">日期</label>
-                    <input type="date" id="session-date" name="session-date" required>
-                    <label for="session-location">地点</label>
-                    <input type="text" id="session-location" name="session-location" required>
-                    <button type="submit">提交</button>
-                    </form>
-                </div>
-            </div>
-            
-        </div>
         <!-- 已选课程页面 -->
         <div id="selected-courses" class="info-page">
             <h1>已选课程</h1>
@@ -192,6 +221,7 @@
                         <th>教师姓名</th>
                         <th>教师职称</th>
                         <th>教师专业</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,11 +233,13 @@
         <div id="student-leave" class="info-page">
             <h1>学生请假</h1>
             <form id="leave-form">
-                <label for="leave-course-name">课程名:</label>
-                <input type="text" id="leave-course-name"><br>
+
+                <label for="leave-course">请假课程:</label>
+                <input type="text" id="leave-course"><br>
 
                 <label for="leave-reason">请假理由:</label>
                 <textarea id="leave-reason"></textarea><br>
+
 
                 <label for="leave-start-time">开始时间:</label>
                 <input type="date" id="leave-start-time"><br>
@@ -225,10 +257,12 @@
             <table id="leave-management-table">
                 <thead>
                     <tr>
-                        <th>课程名</th>
+                        <th>状态</th>
                         <th>请假理由</th>
                         <th>开始时间</th>
                         <th>结束时间</th>
+                        <th>操作</th>
+                        <th>操作</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -385,53 +419,6 @@
                 </tbody>
             </table>
         </div>
-
-
-
-        <!-- 资源 -->
-        <div id="resource-info" class="info-page">
-            <div class="container">
-                <div class="search-bar">
-                  <input type="text" id="session-name-input" placeholder="输入课次名称...">
-                  <button type="button" onclick="filterBySession()">搜索</button>
-                </div>
-                <div class="resource-list">
-                  <h2>课次资源列表</h2>
-                  <table id="resource-table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>资源名称</th>
-                        <th>问题</th>
-                        <th>内容</th>
-                        <th>操作</th>
-                      </tr> 
-                    </thead>
-                    <tbody>
-                      <!-- 资源列表将通过 JavaScript 动态填充 -->
-                    </tbody>
-                  </table>
-                </div>
-            </div>
-            
-              <!-- 添加资源模态框 -->
-            <div id="add-resource-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeAddForm()">&times;</span>
-                    <h2>添加新资源</h2>
-                    <form id="add-resource-form">
-                    <label for="resource-name">资源名称</label>
-                    <input type="text" id="resource-name" name="resource-name" required>
-                    <label for="resource-issue">问题</label>
-                    <textarea id="resource-issue" name="resource-issue" rows="4" required></textarea>
-                    <label for="resource-content">内容</label>
-                    <textarea id="resource-content" name="resource-content" rows="4" required></textarea>
-                    <button type="submit">提交</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
     </div>
 
     <script src="script.js"></script>
